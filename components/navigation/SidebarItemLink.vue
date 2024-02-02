@@ -26,30 +26,32 @@
     >
       {{ item.text }}
     </span>
-    <UKbd
-      v-if="item.kbd"
-      :value="item.kbd"
-      class="ml-auto"
-      :class="[
-        isActive
-          ? 'text-black dark:text-white'
-          : 'text-gray-700/70 dark:text-gray-300/60 group-hover:text-black dark:group-hover:text-white',
-      ]"
-    />
-    <div
-      v-else
-      class="ml-auto inline-flex h-5 items-center justify-center min-w-[20px] text-[11px] ring-1 ring-gray-300 dark:ring-gray-700 ring-inset rounded bg-gray-100 dark:bg-gray-800"
-    >
-      <UIcon
-        name="i-ph-arrow-up-right"
-        class="h-4 w-4"
+    <template v-if="!isDeviceMobile">
+      <UKbd
+        v-if="item.kbd"
+        :value="item.kbd"
+        class="ml-auto"
         :class="[
           isActive
             ? 'text-black dark:text-white'
             : 'text-gray-700/70 dark:text-gray-300/60 group-hover:text-black dark:group-hover:text-white',
         ]"
       />
-    </div>
+      <div
+        v-else
+        class="ml-auto inline-flex h-5 items-center justify-center min-w-[20px] text-[11px] ring-1 ring-gray-300 dark:ring-gray-700 ring-inset rounded bg-gray-100 dark:bg-gray-800"
+      >
+        <UIcon
+          name="i-ph-arrow-up-right"
+          class="h-4 w-4"
+          :class="[
+            isActive
+              ? 'text-black dark:text-white'
+              : 'text-gray-700/70 dark:text-gray-300/60 group-hover:text-black dark:group-hover:text-white',
+          ]"
+        />
+      </div>
+    </template>
   </ULink>
 </template>
 
@@ -65,5 +67,12 @@ defineProps<{
   item: SidebarItem;
 }>();
 
+const isDeviceMobile = ref(false);
+
 const sidebar = useSidebarStore();
+
+if (import.meta.client) {
+  const { isMobile } = useBrowser();
+  isDeviceMobile.value = isMobile();
+}
 </script>
