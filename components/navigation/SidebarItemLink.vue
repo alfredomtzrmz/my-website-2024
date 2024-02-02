@@ -5,6 +5,7 @@
     active-class="rounded-md bg-gray-200/30 ring-1 ring-gray-300 dark:bg-gray-800 dark:ring-gray-700"
     :to="item.to"
     :target="item.target || '_self'"
+    @click.stop="sidebar.close"
   >
     <UIcon
       :name="item.icon"
@@ -54,6 +55,7 @@
 
 <script setup lang="ts">
 import type { SidebarItem } from '@/types/navigation/Sidebar.types';
+import { useSidebarStore } from '~/store/sidebar';
 
 defineOptions({
   name: 'SidebarItemLink',
@@ -62,4 +64,6 @@ defineOptions({
 defineProps<{
   item: SidebarItem;
 }>();
+
+const sidebar = useSidebarStore();
 </script>
